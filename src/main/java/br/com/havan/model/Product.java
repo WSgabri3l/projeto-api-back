@@ -14,6 +14,7 @@ public class Product {
     String name;
     String code;
     Double price;
+    
     String imagePath;
 
     public Product() {

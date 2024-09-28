@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.havan.model.Client;
+import br.com.havan.model.dto.ClientLoginDto;
 import br.com.havan.service.ClientService;
 import jakarta.validation.Valid;
 
@@ -33,6 +34,12 @@ public class ClientController {
     @GetMapping("/{id}")
     public Client getClientById(@PathVariable Long id){
         return clientService.getClientById(id);
+    }
+
+    //Retorna todas as informações 
+    @PostMapping("/login")
+    public String login(@RequestBody ClientLoginDto loginRequest){
+        return clientService.loginByToken(loginRequest);
     }
 
     @PostMapping

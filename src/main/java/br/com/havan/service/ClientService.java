@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.havan.exception.ClientNotFound;
 import br.com.havan.model.Client;
+import br.com.havan.model.dto.ClientLoginDto;
 import br.com.havan.repository.ClientRepository;
 
 @Service
@@ -62,6 +63,35 @@ public class ClientService {
         clientRepository.deleteById(id);
     }
 
+    public String loginByToken(ClientLoginDto request){
+
+        Client client = clientRepository.findByCpf(request.getCpf())
+        .orElseThrow(
+            () -> new ClientNotFound("Client not found")
+        );
+
+        if (!client.getPassword().equals(request.getPassword())) throw new RuntimeException("Acesso Negado");
+
+        return "Acesso Liberado";
+    }
+
+    //Login
+    //O DTO serve como corpo de requisição para executar buscas.
+    //Uma vez encontrada a linha com o valor que bate com o CPF, faremos uma verificação.
+    //Esta consiste em comparar a senha dada pelo usuário com a senha presente na linha.
+    //E assim retornar essa linha (Client).
+    public Client loginGetData(ClientLoginDto request){
+
+        Client client = clientRepository.findByCpf(request.getCpf())
+            .orElseThrow(
+                () -> new ClientNotFound("Client not found")
+            );
+
+        if (!client.getPassword().equals(request.getPassword())) throw new RuntimeException("Senha ou CPF inválido");
+
+        return client;
+    }
+
     private Boolean verification(Client request){
 
         if(request.getName() == null || request.getName().isBlank()) throw new IllegalArgumentException();
@@ -72,7 +102,4 @@ public class ClientService {
 
         return true;
     }
-
-
-
 }
