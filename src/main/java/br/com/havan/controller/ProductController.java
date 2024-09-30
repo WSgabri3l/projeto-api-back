@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.havan.model.Product;
 import br.com.havan.service.ProductService;
 
+/* Notas
+ * @Controller retorna páginas.
+ * @RestController retorna páginas e responses bodies.
+*/
+
 @RestController
 @RequestMapping("/product/v1")
 public class ProductController {
@@ -24,9 +29,6 @@ public class ProductController {
 
     @GetMapping
     public List<Product> getProducts(){
-
-        
-
         return productService.getProducts();
     }
 
