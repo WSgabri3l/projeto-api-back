@@ -2,6 +2,7 @@ package br.com.havan.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,8 @@ import br.com.havan.model.dto.ClientLoginDto;
 import br.com.havan.service.ClientService;
 import jakarta.validation.Valid;
 
+
+
 @RestController
 @RequestMapping("/client/v1")
 public class ClientController {
@@ -26,11 +29,13 @@ public class ClientController {
         this.clientService = clientService;
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping
     public List<Client> getAllClients(){
         return clientService.getClients();
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/{id}")
     public Client getClientById(@PathVariable Long id){
         return clientService.getClientById(id);
@@ -40,8 +45,9 @@ public class ClientController {
     @PostMapping("/login")
     public String login(@RequestBody ClientLoginDto loginRequest){
         return clientService.loginByToken(loginRequest);
+        
     }
-
+    @CrossOrigin(origins = "*")
     @PostMapping
     public void saveClient(@Valid  @RequestBody Client request){
 

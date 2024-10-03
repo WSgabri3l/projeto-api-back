@@ -8,28 +8,28 @@ import br.com.havan.exception.ClientNotFound;
 import br.com.havan.model.Client;
 import br.com.havan.model.dto.ClientLoginDto;
 import br.com.havan.repository.ClientRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class ClientService {
     
     private final ClientRepository clientRepository;
-
-    public ClientService(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
-    }
 
     public List<Client> getClients(){
         
         return clientRepository.findAll();
     }
 
-    public void createClient(Client request){
+    public String createClient(Client request){
 
         if(verification(request)){
             request.setCpf(request.getCpf().replaceAll("[^0-9]", ""));
             request.setCep(request.getCep().replaceAll("[^0-9]", ""));
             clientRepository.save(request);
         }
+
+        return "cadastrado";
     }
 
     public Client getClientById(Long id){
